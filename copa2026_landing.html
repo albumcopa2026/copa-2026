@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Copa do Mundo 2026 — Álbum Panini</title>
+  <!-- Preload hero image for faster LCP -->
+  <link rel="preload" as="image" href="hero-bg.webp" type="image/webp">
+  <link rel="preload" as="image" href="hero-bg.jpg" type="image/jpeg" media="(not (supports(webp)))">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #009c3b;
+    --verde-escuro: #006b28;
+    --amarelo: #FFDF00;
+    --amarelo-escuro: #c9a800;
+    --azul: #002776;
+    --azul-medio: #003fa3;
+    --branco: #ffffff;
+    --cinza-escuro: #0a0a0a;
+    --cinza: #111111;
+    --cinza-card: rgba(0,0,0,0.75);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--cinza-escuro);
+    color: var(--branco);
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 110vw;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px 60px;
+    overflow: hidden;
+  }
+  @media (min-width: 600px) {
+    .hero { min-height: 75vw; }
+  }
+  @media (min-width: 1000px) {
+    .hero { min-height: 65vw; max-height: 900px; }
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    /* bg set by JS */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: brightness(0.6) saturate(1.1);
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 60%,
+      rgba(0,0,0,0.6) 72%,
+      rgba(0,0,0,0.95) 82%,
+      rgba(0,0,0,1) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    padding-top: 0;
+  }
+
+  /* Stars + badge */
+  .stars-badge { display: none !important; }
+  .copa-badge { display: none !important; }
+  .hero-title .line1, .hero-title .line2, .hero-title .line3 { text-shadow: 2px 2px 20px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.8); }
+  .stars-badge-orig {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .stars-badge .star {
+    color: var(--amarelo);
+    font-size: 18px;
+    text-shadow: 0 0 8px rgba(255,223,0,0.8);
+  }
+
+  .copa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,223,0,0.12);
+    border: 1px solid rgba(255,223,0,0.4);
+    border-radius: 30px;
+    padding: 6px 18px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--amarelo);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(38px, 6vw, 70px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.9);
+  }
+
+  .hero-title .line1 { color: var(--branco); }
+  .hero-title .line2 { color: var(--amarelo); display: block; }
+  .hero-title .line3 { color: var(--verde); display: block; }
+
+  .hero-sub {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Countdown */
+  .countdown {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .countdown-unit {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,223,0,0.35);
+    border-radius: 10px;
+    padding: 12px 18px;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  .countdown-unit .num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 38px;
+    color: var(--amarelo);
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+
+  .countdown-unit .label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .countdown-sep {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 38px;
+    color: var(--amarelo);
+    align-self: center;
+    margin-top: -8px;
+    opacity: 0.6;
+  }
+
+  /* Urgency */
+  .urgency-bar {
+    background: linear-gradient(90deg, #8B0000, #cc0000, #8B0000);
+    background-size: 200% 100%;
+    animation: urgencyPulse 2.5s ease-in-out infinite;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: inline-block;
+    color: #fff;
+  }
+
+  @keyframes urgencyPulse {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--amarelo);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(30px, 4vw, 42px);
+    color: var(--branco);
+    letter-spacing: 1px;
+  }
+
+  /* ===== PRICING ===== */
+  .pricing-section {
+    padding: 80px 20px;
+    background: linear-gradient(180deg, #000 0%, #070d1a 100%);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--cinza-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 30px 26px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  }
+
+  .card.popular {
+    border-color: var(--amarelo);
+    box-shadow: 0 0 30px rgba(255,223,0,0.2);
+    background: linear-gradient(160deg, rgba(0,0,0,0.9), rgba(0,39,118,0.3));
+  }
+
+  .card.premium {
+    border-color: var(--azul-medio);
+    box-shadow: 0 0 30px rgba(0,63,163,0.25);
+    background: linear-gradient(160deg, rgba(0,0,0,0.9), rgba(0,39,118,0.4));
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .badge-popular { background: var(--amarelo); color: #000; }
+  .badge-custo { background: var(--verde); color: #fff; }
+  .badge-premium { background: var(--azul-medio); color: #fff; }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .tag-verde { background: rgba(0,156,59,0.2); color: var(--verde); border: 1px solid rgba(0,156,59,0.4); }
+  .tag-amarelo { background: rgba(255,223,0,0.15); color: var(--amarelo); border: 1px solid rgba(255,223,0,0.4); }
+  .tag-azul { background: rgba(0,63,163,0.2); color: #6ab3ff; border: 1px solid rgba(0,63,163,0.4); }
+
+  .card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .card-name {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 30px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--branco);
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .card-features { list-style: none; margin-bottom: 24px; }
+  .card-features li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    padding: 5px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+
+  .card-features li::before {
+    content: '✓';
+    color: var(--verde);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .card.popular .card-features li::before { color: var(--amarelo); }
+  .card.premium .card-features li::before { color: #6ab3ff; }
+
+  .card-price-old {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+
+  .card-price {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 56px;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .card-price .cur { font-size: 24px; }
+  .price-verde { color: var(--verde); }
+  .price-amarelo { color: var(--amarelo); }
+  .price-azul { color: #6ab3ff; }
+
+  .card-price-installment {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .btn:hover { transform: scale(1.03); filter: brightness(1.1); }
+  .btn:active { transform: scale(0.98); }
+
+  .btn-verde { background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; }
+  .btn-amarelo { background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro)); color: #000; }
+  .btn-azul { background: linear-gradient(135deg, var(--azul-medio), var(--azul)); color: #fff; }
+
+  /* ===== TRUST BADGES ===== */
+  .trust-section {
+    padding: 60px 20px;
+    background: #000;
+  }
+
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .trust-item {
+    text-align: center;
+    padding: 24px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+  }
+
+  .trust-icon { font-size: 28px; margin-bottom: 10px; }
+  .trust-title { font-size: 13px; font-weight: 700; color: var(--branco); margin-bottom: 4px; }
+  .trust-desc { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+
+  /* ===== BONUS ===== */
+  .bonus-section {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #070d1a 0%, #000 100%);
+  }
+
+  .bonus-list {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .bonus-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0,39,118,0.2);
+    border: 1px solid rgba(0,63,163,0.3);
+    border-radius: 14px;
+    padding: 20px 24px;
+    transition: background 0.2s;
+  }
+
+  .bonus-item:hover { background: rgba(0,39,118,0.35); }
+
+  .bonus-num {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro));
+    color: #000;
+    font-weight: 900;
+    font-size: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bonus-text { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.5; }
+  .bonus-text strong { color: var(--branco); }
+
+  /* ===== GUARANTEE ===== */
+  .guarantee-section {
+    padding: 50px 20px;
+    background: #000;
+  }
+
+  .guarantee-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(0,156,59,0.15), rgba(0,39,118,0.2));
+    border: 1px solid rgba(0,156,59,0.4);
+    border-radius: 18px;
+    padding: 32px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .guarantee-icon { font-size: 36px; flex-shrink: 0; }
+  .guarantee-title { font-family: 'Bebas Neue', cursive; font-size: 22px; color: var(--verde); margin-bottom: 8px; letter-spacing: 1px; }
+  .guarantee-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+  /* ===== REVIEWS ===== */
+  .reviews-section {
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #000 0%, #070d1a 100%);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .review-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+    transition: border-color 0.3s;
+  }
+
+  .review-card:hover { border-color: rgba(255,223,0,0.3); }
+
+  .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .review-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: #000;
+    flex-shrink: 0;
+  }
+
+  .av-rc { background: linear-gradient(135deg, var(--verde), var(--verde-escuro)); }
+  .av-am { background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro)); }
+  .av-jp { background: linear-gradient(135deg, var(--azul-medio), var(--azul)); color: #fff; }
+
+  .review-name { font-size: 14px; font-weight: 700; }
+  .review-stars { color: var(--amarelo); font-size: 12px; }
+  .review-text { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.6; font-style: italic; }
+
+  /* ===== CTA BOTTOM ===== */
+  .cta-section {
+    padding: 70px 20px;
+    background: linear-gradient(135deg, var(--azul) 0%, #001a5e 50%, var(--verde-escuro) 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .cta-title { font-family: 'Bebas Neue', cursive; font-size: clamp(28px, 5vw, 44px); margin-bottom: 10px; }
+  .cta-sub { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 30px; }
+
+  .btn-cta-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 8px 30px rgba(37,211,102,0.4);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .btn-cta-main:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+
+  .cta-footer-text {
+    margin-top: 20px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-footer-text span { display: flex; align-items: center; gap: 4px; }
+
+  /* Brazil flag stripe accent */
+  .br-stripe {
+    height: 4px;
+    background: linear-gradient(90deg, var(--verde) 33%, var(--amarelo) 33%, var(--amarelo) 66%, var(--azul) 66%);
+  }
+
+  /* Scroll animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fadeUp 0.7s ease forwards; opacity: 0; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* ===== CARD IMAGE CROP ===== */
+  .card-kit-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .card-kit-img img {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 300%;
+    max-width: none;
+    object-fit: cover;
+  }
+  .kit-img-1 img { left: 0%; }
+  .kit-img-2 img { left: 50%; transform: translateX(-50%); }
+  .kit-img-3 img { right: 0%; }
+
+  /* ===== MOBILE RESPONSIVO ===== */
+  @media (max-width: 600px) {
+
+    /* Hero */
+    .hero {
+      min-height: 155vw;
+      padding: 0 16px 48px;
+    }
+
+    .hero-overlay {
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 48%,
+        rgba(0,0,0,0.55) 62%,
+        rgba(0,0,0,0.93) 76%,
+        rgba(0,0,0,1) 100%
+      );
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 10vw, 48px);
+      margin-bottom: 10px;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      margin-bottom: 18px;
+      padding: 0 4px;
+    }
+
+    .countdown {
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .countdown-unit {
+      padding: 10px 12px;
+      min-width: 58px;
+    }
+
+    .countdown-unit .num {
+      font-size: 30px;
+    }
+
+    .countdown-sep {
+      font-size: 30px;
+    }
+
+    .urgency-bar {
+      font-size: 11px;
+      padding: 9px 16px;
+      letter-spacing: 0.5px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    /* Section headers */
+    .section-header {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 28px;
+    }
+
+    /* Pricing */
+    .pricing-section {
+      padding: 52px 14px;
+    }
+
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .card {
+      padding: 24px 18px;
+    }
+
+    .card.popular {
+      margin-top: 8px;
+    }
+
+    .card-name {
+      font-size: 26px;
+    }
+
+    .card-kit-img {
+      aspect-ratio: 4/3;
+    }
+
+    .card-price {
+      font-size: 48px;
+    }
+
+    .btn {
+      font-size: 15px;
+      padding: 15px 16px;
+    }
+
+    /* Trust */
+    .trust-section {
+      padding: 44px 14px;
+    }
+
+    .trust-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .trust-item {
+      padding: 18px 12px;
+    }
+
+    .trust-icon {
+      font-size: 24px;
+    }
+
+    /* Bonus */
+    .bonus-section {
+      padding: 44px 14px;
+    }
+
+    .bonus-item {
+      padding: 16px 16px;
+      gap: 14px;
+    }
+
+    .bonus-text {
+      font-size: 13px;
+    }
+
+    /* Guarantee */
+    .guarantee-section {
+      padding: 36px 14px;
+    }
+
+    .guarantee-box {
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px 18px;
+      align-items: flex-start;
+    }
+
+    .guarantee-icon {
+      font-size: 30px;
+    }
+
+    .guarantee-title {
+      font-size: 20px;
+    }
+
+    /* Reviews */
+    .reviews-section {
+      padding: 44px 14px;
+    }
+
+    .reviews-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    /* CTA Bottom */
+    .cta-section {
+      padding: 52px 16px;
+    }
+
+    .cta-title {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .cta-sub {
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .btn-cta-main {
+      font-size: 15px;
+      padding: 16px 28px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cta-footer-text {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="br-stripe"></div>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+
+    <div class="stars-badge fade-up delay-1">
+      <!-- 6 estrelas APENAS (hexa) -->
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+    </div>
+
+    <div class="copa-badge fade-up delay-2">
+      🌎 Copa do Mundo 2026 🏆
+    </div>
+
+    <h1 class="hero-title fade-up delay-3">
+      <span class="line1">Complete sua história</span>
+      <span class="line2">na maior Copa</span>
+      <span class="line3">de todos os tempos</span>
+    </h1>
+
+    <p class="hero-sub fade-up delay-4">
+      Escolha como quer viver essa Copa — a emoção nostálgica de cada envelope ou o álbum já completo pronto para exibir.
+    </p>
+
+    <div class="countdown fade-up delay-4" id="countdown">
+      <div class="countdown-unit"><div class="num" id="cHoras">04</div><div class="label">Horas</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="num" id="cMin">41</div><div class="label">Min</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit"><div class="num" id="cSeg">05</div><div class="label">Seg</div></div>
+    </div>
+
+    <div class="urgency-bar fade-up delay-5">🔥 Últimas 23 unidades — oferta encerra em breve</div>
+
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="section-header">
+    <div class="section-label">Escolha seu kit</div>
+    <div class="section-title">Qual experiência você quer?</div>
+  </div>
+
+  <div class="pricing-grid">
+
+    <!-- Kit Aventura -->
+    <div class="card">
+      <span class="card-tag tag-verde">Nostalgia Pura</span>
+      <div class="card-name">Kit Aventura</div>
+      <div class="card-kit-img kit-img-1">
+        <img src="" alt="Kit Aventura" loading="lazy" decoding="async">
+      </div>
+      <div class="card-desc">Álbum oficial de capa mole + envelopes de figurinhas</div>
+      <ul class="card-features">
+        <li>Álbum oficial Copa 2026</li>
+        <li>20 envelopes (140 figurinhas)</li>
+        <li>Figurinhas originais Panini</li>
+        <li>Frete grátis</li>
+        <li>Grupo VIP de trocas</li>
+      </ul>
+      <div class="card-price-old">R$ 99,00</div>
+      <div class="card-price price-verde"><span class="cur">R$</span> 49</div>
+      <div class="card-price-installment">ou 4× de R$ 13,72</div>
+      <a href="https://wa.me/5511970392592?text=Ol%C3%A1!%20Quero%20o%20Kit%20Aventura%20%F0%9F%8C%9F%20%E2%80%94%20%C3%A1lbum%20oficial%20Copa%202026%20%2B%2020%20envelopes%20por%20R%24%2049!%20Me%20d%C3%AA%20mais%20detalhes." target="_blank" class="btn btn-verde">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quero esse kit
+      </a>
+    </div>
+
+    <!-- Kit Colecionador -->
+    <div class="card popular">
+      <div class="card-badge badge-popular">⭐ Mais Popular</div>
+      <span class="card-tag tag-amarelo">Melhor Custo-Benefício</span>
+      <div class="card-name">Kit Colecionador</div>
+      <div class="card-kit-img kit-img-2">
+        <img src="" alt="Kit Colecionador" loading="lazy" decoding="async">
+      </div>
+      <div class="card-desc">Álbum oficial de capa mole + mais envelopes de figurinhas e itens exclusivos</div>
+      <ul class="card-features">
+        <li>Álbum oficial Copa 2026</li>
+        <li>50 envelopes (350 figurinhas)</li>
+        <li>10 figurinhas douradas</li>
+        <li>Embalagem blindada</li>
+        <li>Grupo VIP + guia de raridades</li>
+        <li>Pôster exclusivo Copa 2026</li>
+      </ul>
+      <div class="card-price-old">R$ 249,50</div>
+      <div class="card-price price-amarelo"><span class="cur">R$</span> 149</div>
+      <div class="card-price-installment">ou 10× de R$ 17,38</div>
+      <a href="https://wa.me/5511970392592?text=Ol%C3%A1!%20Quero%20o%20Kit%20Colecionador%20%F0%9F%8F%86%20%E2%80%94%20%C3%A1lbum%20oficial%20%2B%2050%20envelopes%20%2B%20figurinhas%20douradas%20por%20R%24%20149!%20Me%20d%C3%AA%20mais%20detalhes." target="_blank" class="btn btn-amarelo">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quero esse kit
+      </a>
+    </div>
+
+    <!-- Álbum Completo -->
+    <div class="card premium">
+      <div class="card-badge badge-premium">🏆 Pronto para Exibir</div>
+      <span class="card-tag tag-azul">Experiência Premium</span>
+      <div class="card-name">Álbum Completo</div>
+      <div class="card-kit-img kit-img-3">
+        <img src="" alt="Álbum Completo" loading="lazy" decoding="async">
+      </div>
+      <div class="card-desc">Álbum oficial de capa dura + todos envelopes + caixa premium e bônus exclusivos</div>
+      <ul class="card-features">
+        <li>Álbum 100% completo e colado</li>
+        <li>980 figurinhas (todas originais)</li>
+        <li>Figurinhas especiais e brilho</li>
+        <li>Caixa premium de presente</li>
+        <li>Frete expresso grátis</li>
+        <li>Certificado de autenticidade</li>
+      </ul>
+      <div class="card-price-old">R$ 399,00</div>
+      <div class="card-price price-azul"><span class="cur">R$</span> 249</div>
+      <div class="card-price-installment">ou 12× de R$ 24,63</div>
+      <a href="https://wa.me/5511970392592?text=Ol%C3%A1!%20Quero%20o%20%C3%81lbum%20Completo%20%F0%9F%8F%85%20%E2%80%94%20todas%20as%20figurinhas%20coladas%2C%20caixa%20premium%20por%20R%24%20249!%20Me%20d%C3%AA%20mais%20detalhes." target="_blank" class="btn btn-azul">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quero esse kit
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- TRUST -->
+<section class="trust-section">
+  <div class="section-header">
+    <div class="section-label">Por que comprar aqui</div>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="trust-icon">✅</div>
+      <div class="trust-title">100% originais</div>
+      <div class="trust-desc">Panini licenciadas e autênticas</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🚚</div>
+      <div class="trust-title">Frete grátis</div>
+      <div class="trust-desc">Envio expresso para todo o Brasil</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🔒</div>
+      <div class="trust-title">Compra segura</div>
+      <div class="trust-desc">Pix, cartão ou débito</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🛡️</div>
+      <div class="trust-title">7 dias de garantia</div>
+      <div class="trust-desc">Devolução sem burocracia</div>
+    </div>
+  </div>
+</section>
+
+<!-- BONUS -->
+<section class="bonus-section">
+  <div class="section-header">
+    <div class="section-label">Bônus inclusos em todos os kits</div>
+    <div class="section-title">Vai muito além do álbum</div>
+  </div>
+  <div class="bonus-list">
+    <div class="bonus-item">
+      <div class="bonus-num">1</div>
+      <div class="bonus-text"><strong>Grupo VIP de trocas</strong> — +2.400 colecionadores ativos para trocar repetidas sem sair de casa</div>
+    </div>
+    <div class="bonus-item">
+      <div class="bonus-num">2</div>
+      <div class="bonus-text"><strong>Guia de raridades</strong> — saiba quais figurinhas valem mais e como completar mais rápido</div>
+    </div>
+    <div class="bonus-item">
+      <div class="bonus-num">3</div>
+      <div class="bonus-text"><strong>Embalagem blindada</strong> — seu kit chega 100% protegido contra amassados e umidade</div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee-section">
+  <div class="guarantee-box">
+    <div class="guarantee-icon">🛡️</div>
+    <div>
+      <div class="guarantee-title">Garantia de 7 dias — sem perguntas</div>
+      <div class="guarantee-text">Não ficou satisfeito? Nos chame no WhatsApp e devolvemos 100% do seu dinheiro. Simples assim.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="section-header">
+    <div class="section-label">O que dizem os clientes</div>
+    <div class="section-title">Quem já comprou aprovou</div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar av-rc">RC</div>
+        <div>
+          <div class="review-name">Rafael C.</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">"Chegou em 2 dias, impecável. Já estou na metade do álbum e a emoção de cada envelope não tem preço!"</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar av-am">AM</div>
+        <div>
+          <div class="review-name">Ana M.</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">"Comprei o álbum completo de presente. Fiquei impressionado com a qualidade e a embalagem premium."</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar av-jp">JP</div>
+        <div>
+          <div class="review-name">João P.</div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="review-text">"O grupo de trocas é ouro! Troquei +80 repetidas em 3 dias. Vale muito o Kit Colecionador."</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<section class="cta-section">
+  <h2 class="cta-title">Dúvida? Fale direto com a gente</h2>
+  <p class="cta-sub">Nosso time responde em minutos no WhatsApp</p>
+  <a href="https://wa.me/5511970392592?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20os%20kits%20do%20%C3%A1lbum%20da%20Copa%202026.%20Podem%20me%20ajudar%3F%20%F0%9F%8C%9F" target="_blank" class="btn-cta-main">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Falar no WhatsApp
+  </a>
+  <div class="cta-footer-text">
+    <span>🔒 Pagamento seguro</span>
+    <span>🚚 Frete grátis para todo o Brasil</span>
+    <span>💳 Pix, cartão ou débito</span>
+  </div>
+</section>
+
+<div class="br-stripe"></div>
+
+<script>
+  // ---- Load image as base64 ----
+  // The image data will be injected here by the script below
+  const IMG_PLACEHOLDER = "";
+
+  // ---- Countdown ----
+  let totalSecs = 4 * 3600 + 41 * 60 + 5;
+  function updateCountdown() {
+    if (totalSecs <= 0) return;
+    totalSecs--;
+    const h = Math.floor(totalSecs / 3600);
+    const m = Math.floor((totalSecs % 3600) / 60);
+    const s = totalSecs % 60;
+    document.getElementById('cHoras').textContent = String(h).padStart(2,'0');
+    document.getElementById('cMin').textContent = String(m).padStart(2,'0');
+    document.getElementById('cSeg').textContent = String(s).padStart(2,'0');
+  }
+  setInterval(updateCountdown, 1000);
+
+  // ---- Set background ----
+  const heroBg = document.getElementById('heroBg');
+  heroBg.style.backgroundImage = `url('${IMG_PLACEHOLDER}')`;
+</script>
+
+<script>
+  // Image loading with WebP detection + lazy load
+  function supportsWebP(cb) {
+    const img = new Image();
+    img.onload = () => cb(img.width === 2);
+    img.onerror = () => cb(false);
+    img.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bFAAA=';
+  }
+
+  function loadImages(useWebP) {
+    const ext = useWebP ? '.webp' : '.jpg';
+    const heroBg = document.getElementById('heroBg');
+    heroBg.style.backgroundImage = "url('hero-bg" + ext + "')";
+    
+    document.querySelectorAll('.card-kit-img img').forEach(img => {
+      img.src = 'kits' + ext;
+    });
+  }
+
+  supportsWebP(loadImages);
+</script>
+</body>
+</html>
